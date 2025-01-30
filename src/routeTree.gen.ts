@@ -17,6 +17,7 @@ import { Route as AuthenticatedImport } from './routes/_authenticated'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthenticatedDashboardImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCheckAbsenImport } from './routes/_authenticated/check-absen'
+import { Route as AuthenticatedAkunImport } from './routes/_authenticated/akun'
 
 // Create/Update Routes
 
@@ -55,6 +56,12 @@ const AuthenticatedCheckAbsenRoute = AuthenticatedCheckAbsenImport.update({
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 
+const AuthenticatedAkunRoute = AuthenticatedAkunImport.update({
+  id: '/akun',
+  path: '/akun',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -87,6 +94,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
+    '/_authenticated/akun': {
+      id: '/_authenticated/akun'
+      path: '/akun'
+      fullPath: '/akun'
+      preLoaderRoute: typeof AuthenticatedAkunImport
+      parentRoute: typeof AuthenticatedImport
+    }
     '/_authenticated/check-absen': {
       id: '/_authenticated/check-absen'
       path: '/check-absen'
@@ -107,11 +121,13 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAkunRoute: typeof AuthenticatedAkunRoute
   AuthenticatedCheckAbsenRoute: typeof AuthenticatedCheckAbsenRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAkunRoute: AuthenticatedAkunRoute,
   AuthenticatedCheckAbsenRoute: AuthenticatedCheckAbsenRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
 }
@@ -125,6 +141,7 @@ export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteWithChildren
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/akun': typeof AuthenticatedAkunRoute
   '/check-absen': typeof AuthenticatedCheckAbsenRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
 }
@@ -134,6 +151,7 @@ export interface FileRoutesByTo {
   '': typeof AuthenticatedRouteWithChildren
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/akun': typeof AuthenticatedAkunRoute
   '/check-absen': typeof AuthenticatedCheckAbsenRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
 }
@@ -144,21 +162,30 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
+  '/_authenticated/akun': typeof AuthenticatedAkunRoute
   '/_authenticated/check-absen': typeof AuthenticatedCheckAbsenRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/about' | '/login' | '/check-absen' | '/dashboard'
+  fullPaths:
+    | '/'
+    | ''
+    | '/about'
+    | '/login'
+    | '/akun'
+    | '/check-absen'
+    | '/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/about' | '/login' | '/check-absen' | '/dashboard'
+  to: '/' | '' | '/about' | '/login' | '/akun' | '/check-absen' | '/dashboard'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/about'
     | '/login'
+    | '/_authenticated/akun'
     | '/_authenticated/check-absen'
     | '/_authenticated/dashboard'
   fileRoutesById: FileRoutesById
@@ -200,6 +227,7 @@ export const routeTree = rootRoute
     "/_authenticated": {
       "filePath": "_authenticated.tsx",
       "children": [
+        "/_authenticated/akun",
         "/_authenticated/check-absen",
         "/_authenticated/dashboard"
       ]
@@ -209,6 +237,10 @@ export const routeTree = rootRoute
     },
     "/login": {
       "filePath": "login.tsx"
+    },
+    "/_authenticated/akun": {
+      "filePath": "_authenticated/akun.tsx",
+      "parent": "/_authenticated"
     },
     "/_authenticated/check-absen": {
       "filePath": "_authenticated/check-absen.tsx",

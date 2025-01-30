@@ -5,6 +5,8 @@ import { routeTree } from "./routeTree.gen";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAuthStore } from "./store/auth-store";
 
+import "./index.css";
+
 const queryClient = new QueryClient();
 
 const router = createRouter({

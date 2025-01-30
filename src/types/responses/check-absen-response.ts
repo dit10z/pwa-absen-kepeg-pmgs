@@ -4,5 +4,5 @@ export type CheckAbsenResponse = {
   office: string;
   department: string;
   position: string;
-  is_late: string;
+  is_late: number;
 };
